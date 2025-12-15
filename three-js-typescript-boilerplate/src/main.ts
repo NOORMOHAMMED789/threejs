@@ -1,5 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
+import { OrbitControls } from "three/addons/controls/OrbitControls.js"
+
 
 const scene = new THREE.Scene()
 
@@ -16,6 +18,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight)
 })
 
+new OrbitControls(camera, renderer.domElement)
 const geometry = new THREE.BoxGeometry()
 const material = new THREE.MeshNormalMaterial({ wireframe: true })
 
