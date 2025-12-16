@@ -23,28 +23,53 @@ window.addEventListener('resize', () => {
 document.body.appendChild(stats.dom)
 
 
+const sceneA = new THREE.Scene()
+const sceneB = new THREE.Scene()
+const sceneC = new THREE.Scene()
+
 new OrbitControls(camera, renderer.domElement)
 const geometry = new THREE.BoxGeometry()
 const material = new THREE.MeshNormalMaterial({ wireframe: true })
 
-// scene.background = new THREE.TextureLoader().load('https://sbcode.net/img/grid.png')
-scene.background = new THREE.CubeTextureLoader()
+sceneA.background = new THREE.Color(0x123456)
+sceneB.background = new THREE.TextureLoader().load('https://sbcode.net/img/grid.png')
+sceneC.background = new THREE.CubeTextureLoader()
 .setPath('https://sbcode.net/img/')
 .load(['px.png','nx.png','py.png','nx.png','pz.png','nx.png'])
 
 const cube = new THREE.Mesh(geometry, material)
-scene.add(cube)
+sceneA.add(cube)
+
+
+
+// const gui = new GUI()
+// const cubeFolder = gui.addFolder('Cube')
+// cubeFolder.add(cube.rotation, "x", 0, Math.PI*2)
+// cubeFolder.add(cube.rotation, "y", 0, Math.PI*2)
+// cubeFolder.add(cube.rotation, "z", 0, Math.PI*2)
+// cubeFolder.open()
+
+// const cameraFolder = gui.addFolder('Camera');
+// cameraFolder.add(camera.position, 'z', 0, 20)
+// cameraFolder.open()
+
+let activeScene = sceneA
+const setScene = {
+  sceneA: function() {
+    activeScene = sceneA
+  },
+  sceneB: function() {
+    activeScene = sceneB
+  },
+  sceneC: function() {
+    activeScene = sceneC
+  }
+}
 
 const gui = new GUI()
-const cubeFolder = gui.addFolder('Cube')
-cubeFolder.add(cube.rotation, "x", 0, Math.PI*2)
-cubeFolder.add(cube.rotation, "y", 0, Math.PI*2)
-cubeFolder.add(cube.rotation, "z", 0, Math.PI*2)
-cubeFolder.open()
-
-const cameraFolder = gui.addFolder('Camera');
-cameraFolder.add(camera.position, 'z', 0, 20)
-cameraFolder.open()
+gui.add(setScene, 'sceneA').name('Scene A')
+gui.add(setScene, 'sceneB').name('Scene B')
+gui.add(setScene, 'sceneC').name('Scene C')
 
 function animate() {
   requestAnimationFrame(animate)
@@ -52,7 +77,7 @@ function animate() {
   cube.rotation.x += 0.01
   cube.rotation.y += 0.01
 
-  renderer.render(scene, camera)
+  renderer.render(activeScene, camera)
   stats.update()
 }
 
