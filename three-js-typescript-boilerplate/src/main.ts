@@ -1,9 +1,10 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
-
+import Stats from 'three/addons/libs/stats.module.js'
 
 const scene = new THREE.Scene()
+const stats = new Stats()
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.position.z = 1.5
@@ -17,6 +18,8 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix()
   renderer.setSize(window.innerWidth, window.innerHeight)
 })
+
+document.body.appendChild(stats.dom)
 
 new OrbitControls(camera, renderer.domElement)
 const geometry = new THREE.BoxGeometry()
@@ -32,6 +35,7 @@ function animate() {
   cube.rotation.y += 0.01
 
   renderer.render(scene, camera)
+  stats.update()
 }
 
 animate()
