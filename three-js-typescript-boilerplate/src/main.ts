@@ -27,6 +27,11 @@ new OrbitControls(camera, renderer.domElement)
 const geometry = new THREE.BoxGeometry()
 const material = new THREE.MeshNormalMaterial({ wireframe: true })
 
+// scene.background = new THREE.TextureLoader().load('https://sbcode.net/img/grid.png')
+scene.background = new THREE.CubeTextureLoader()
+.setPath('https://sbcode.net/img/')
+.load(['px.png','nx.png','py.png','nx.png','pz.png','nx.png'])
+
 const cube = new THREE.Mesh(geometry, material)
 scene.add(cube)
 
